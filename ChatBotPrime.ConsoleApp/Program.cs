@@ -10,38 +10,38 @@ using System.Runtime.CompilerServices;
 
 namespace ChatBotPrime.ConsoleApp
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
+	class Program
+	{
+		static void Main(string[] args)
+		{
 
 
-            IConfiguration config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-                .AddJsonFile("appsettings.json", true, true)
-                .AddUserSecrets<Program>()
-                .AddEnvironmentVariables()
-                .AddCommandLine(args)
-                .Build();
+			IConfiguration config = new ConfigurationBuilder()
+				.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+				.AddJsonFile("appsettings.json", true, true)
+				.AddUserSecrets<Program>()
+				.AddEnvironmentVariables()
+				.AddCommandLine(args)
+				.Build();
 
-            IServiceCollection services = new ServiceCollection();
+			IServiceCollection services = new ServiceCollection();
 
-            var section = config.GetSection("AppSettings");
+			var section = config.GetSection("AppSettings");
 
-            services.Configure<ApplicationSettings>(section);
-
-
-            services.AddSingleton<IChatService, TwitchChatService>();
-
-            var sp = services.BuildServiceProvider();
-
-            IChatService tcs = sp.GetService<IChatService>();
+			services.Configure<ApplicationSettings>(section);
 
 
-            Console.ReadLine();
+			services.AddSingleton<IChatService, TwitchChatService>();
 
-            tcs.Disconnect();
+			var sp = services.BuildServiceProvider();
 
-        }
-    }
+			IChatService tcs = sp.GetService<IChatService>();
+
+
+			Console.ReadLine();
+
+			tcs.Disconnect();
+
+		}
+	}
 }

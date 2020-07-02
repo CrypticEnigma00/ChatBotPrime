@@ -2,9 +2,9 @@
 
 namespace ChatBotPrime.Core.Configuration
 {
-    public class ApplicationSettings
-    {
-        public TwitchSettings TwitchSettings { get; set; }
-    }
+	public class ApplicationSettings
+	{
+		public TwitchSettings TwitchSettings { get; set; }
+	}
 
 }

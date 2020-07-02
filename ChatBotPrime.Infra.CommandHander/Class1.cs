@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChatBotPrime.Infra.Chat.Discord
+namespace ChatBotPrime.Infra.CommandHander
 {
     public class Class1
     {
