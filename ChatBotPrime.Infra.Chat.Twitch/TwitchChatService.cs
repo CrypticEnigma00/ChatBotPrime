@@ -8,6 +8,7 @@ using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Models;
+using Microsoft.Extensions.Logging;
 
 namespace ChatBotPrime.Infra.Chat.Twitch
 {
@@ -16,14 +17,16 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 		private TwitchClient _client;
 		private readonly TwitchSettings _settings;
 		private JoinedChannel _channel;
+		private ILogger<TwitchChatService> _logger;
 		public bool _connected => _client.IsConnected;
 
 		public event EventHandler<ChatMessageReceivedEventArgs> OnMessageReceived;
 		public event EventHandler<ChatCommandReceivedEventArgs> OnCommandReceived;
 
-		public TwitchChatService(IOptions<ApplicationSettings> applicationSettings)
+		public TwitchChatService(IOptions<ApplicationSettings> applicationSettings, ILogger<TwitchChatService> logger)
 		{
 			_settings = applicationSettings.Value.TwitchSettings;
+			_logger = logger;
 
 			var creds = CreateCredentials();
 			CreateClient();
@@ -53,8 +56,7 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 		public void JoinChannel(string channel)
 		{
 			_client.JoinChannel(channel);
-			Console.WriteLine($"Joined channel : {channel}");
-
+			_logger.LogInformation($"Joined channel : {channel}");
 		}
 
 		private void CommandReceived(ChatCommandReceivedEventArgs e)
@@ -111,15 +113,16 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 
 		private void OnConnected(object sender, OnConnectedArgs args)
 		{
-			Console.WriteLine($"Connection To Twitch Started.");
+			_logger.LogInformation($"Connection To Twitch Started.");
 			JoinChannel(_settings.Channel);
 			_channel = _client.GetJoinedChannel(_settings.Channel);
+			SendMessage($"{_settings.BotName} has arrived");
 		}
 
 
 		private void CommandReceived(object sender, OnChatCommandReceivedArgs args)
 		{
-			Console.WriteLine($"Command Received from Chat : {args.Command.CommandText}  arguments : {args.Command.ArgumentsAsString}");
+			_logger.LogInformation($"Command Received from Chat : {args.Command.CommandText}  arguments : {args.Command.ArgumentsAsString}");
 			var eventArgs = new ChatCommandReceivedEventArgs(
 					args.Command.ArgumentsAsList,
 					args.Command.CommandIdentifier,
@@ -149,7 +152,7 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 
 			if (!msg.StartsWith(_settings.CommandIdentifier.ToString()))
 			{
-				Console.WriteLine("Message Received from Chat");
+				_logger.LogInformation("Message Received from Chat");
 
 				var eventArgs = new ChatMessageReceivedEventArgs( new Core.Events.EventArguments.ChatMessage(
 						args.ChatMessage.Message,
