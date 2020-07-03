@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChatBotPrime.Core\ChatBotPrime.Core.csproj" />
+    <ProjectReference Include="..\ChatBotPrime.Infra.Chat.Discord\ChatBotPrime.Infra.Chat.Discord.csproj" />
     <ProjectReference Include="..\ChatBotPrime.Infra.Chat.Twitch\ChatBotPrime.Infra.Chat.Twitch.csproj" />
     <ProjectReference Include="..\ChatBotPrime.Infra.CommandHander\ChatBotPrime.Infra.CommandHander.csproj" />
   </ItemGroup>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChatBotPrime.Core.Configuration
 {
-	public class TwitchSettings
+	public class DiscordSettings
 	{
 		public bool Enabled { get; set; }
 		public string Username { get; set; }

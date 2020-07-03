@@ -1,29 +1,32 @@
 ﻿using ChatBotPrime.Core.Events.EventArguments;
 using ChatBotPrime.Core.Interfaces.Chat;
-using ChatBotPrime.Core.Services.CommandHandler;
 using ChatBotPrime.Core.Services.CommandHandler.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Windows.Input;
 
 namespace ChatBotPrime.Infra.CommandHander
 {
 	public class CommandHandlerService
 	{
-		private IChatService _chatService;
+		private IEnumerable<IChatService> _chatServices;
 		private List<IChatCommand> _commands;
 		
 
-		public CommandHandlerService(IChatService chatService)
+		public CommandHandlerService(IEnumerable<IChatService>  chatServices)
 		{
-			_chatService = chatService;
+			_chatServices = chatServices;
 
-			_chatService.OnCommandReceived += CommandHander;
-
+			AddEventHandlersToChatServices();
 			GetCommandList();
+		}
+
+		private void AddEventHandlersToChatServices()
+		{
+			foreach (IChatService svc in _chatServices)
+			{
+				svc.OnCommandReceived += CommandHander;
+			}
 		}
 
 		private void GetCommandList()
@@ -35,9 +38,9 @@ namespace ChatBotPrime.Infra.CommandHander
 
 		private void CommandHander(object sender, ChatCommandReceivedEventArgs e)
 		{
-			IChatCommand command = GetCommand(e.CommandText);
+			var command = GetCommand(e.CommandText);
 
-			_chatService.SendMessage(command.Response);
+			((IChatService)sender).SendMessage(command.Response);
 		}
 
 		private IChatCommand GetCommand(string commandText)
