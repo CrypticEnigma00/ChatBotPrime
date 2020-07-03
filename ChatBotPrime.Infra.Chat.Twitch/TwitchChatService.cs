@@ -79,13 +79,6 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 			_client.SendMessage(channel, message);
 		}
 
-	
-
-	
-
-	
-
-	
 
 		private ConnectionCredentials CreateCredentials()
 		{
@@ -126,7 +119,7 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 
 		private void CommandReceived(object sender, OnChatCommandReceivedArgs args)
 		{
-			Console.WriteLine($"Command Received from Chat : {args.Command.CommandText}  aarguments : {args.Command.ArgumentsAsString}");
+			Console.WriteLine($"Command Received from Chat : {args.Command.CommandText}  arguments : {args.Command.ArgumentsAsString}");
 			var eventArgs = new ChatCommandReceivedEventArgs(
 					args.Command.ArgumentsAsList,
 					args.Command.CommandIdentifier,
