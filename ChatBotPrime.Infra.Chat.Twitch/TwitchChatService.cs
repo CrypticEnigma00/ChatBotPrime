@@ -23,9 +23,9 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 		public event EventHandler<ChatMessageReceivedEventArgs> OnMessageReceived;
 		public event EventHandler<ChatCommandReceivedEventArgs> OnCommandReceived;
 
-		public TwitchChatService(IOptions<ApplicationSettings> applicationSettings, ILogger<TwitchChatService> logger)
+		public TwitchChatService(IOptions<ApplicationSettings> applicationSettingsAccesor, ILogger<TwitchChatService> logger)
 		{
-			_settings = applicationSettings.Value.TwitchSettings;
+			_settings = applicationSettingsAccesor.Value.TwitchSettings;
 			_logger = logger;
 
 			var creds = CreateCredentials();

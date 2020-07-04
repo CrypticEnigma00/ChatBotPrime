@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBotPrime.ConsoleApp", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBotPrime.Infra.CommandHander", "ChatBotPrime.Infra.CommandHander\ChatBotPrime.Infra.CommandHander.csproj", "{3D7BD1D6-6679-4680-BB68-99AC63F5B15B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SignalR", "SignalR", "{C65A6FBD-1B02-444D-A739-A9F976ED178B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBotPrime.Infra.SignalRCommunication", "ChatBotPrime.Infra.SignalRCommunication\ChatBotPrime.Infra.SignalRCommunication.csproj", "{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,18 @@ Global
 		{3D7BD1D6-6679-4680-BB68-99AC63F5B15B}.Release|x64.Build.0 = Release|Any CPU
 		{3D7BD1D6-6679-4680-BB68-99AC63F5B15B}.Release|x86.ActiveCfg = Release|Any CPU
 		{3D7BD1D6-6679-4680-BB68-99AC63F5B15B}.Release|x86.Build.0 = Release|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Debug|x64.Build.0 = Debug|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Debug|x86.Build.0 = Debug|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Release|x64.ActiveCfg = Release|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Release|x64.Build.0 = Release|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Release|x86.ActiveCfg = Release|Any CPU
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +130,8 @@ Global
 		{C2244130-AFDF-44F7-B99A-B94669124742} = {5666AEDD-FEED-490C-9249-22DD7E2BED68}
 		{16175AB9-EABC-4B1D-9967-DD31AB6C9E93} = {3B96598E-990E-4F1A-9D46-9677A651C9E1}
 		{3D7BD1D6-6679-4680-BB68-99AC63F5B15B} = {5666AEDD-FEED-490C-9249-22DD7E2BED68}
+		{C65A6FBD-1B02-444D-A739-A9F976ED178B} = {5666AEDD-FEED-490C-9249-22DD7E2BED68}
+		{8D07B3AA-1FD1-46F1-AB97-B95DF367025F} = {C65A6FBD-1B02-444D-A739-A9F976ED178B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9403355A-9984-4C17-9AC0-534C8523FB6B}

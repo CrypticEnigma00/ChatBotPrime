@@ -23,6 +23,8 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.1.5" />
       <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.5" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.5" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.5" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.5" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.5" />
   </ItemGroup>
 
@@ -31,6 +33,7 @@
     <ProjectReference Include="..\ChatBotPrime.Infra.Chat.Discord\ChatBotPrime.Infra.Chat.Discord.csproj" />
     <ProjectReference Include="..\ChatBotPrime.Infra.Chat.Twitch\ChatBotPrime.Infra.Chat.Twitch.csproj" />
     <ProjectReference Include="..\ChatBotPrime.Infra.CommandHander\ChatBotPrime.Infra.CommandHander.csproj" />
+    <ProjectReference Include="..\ChatBotPrime.Infra.SignalRCommunication\ChatBotPrime.Infra.SignalRCommunication.csproj" />
   </ItemGroup>
 
 </Project>

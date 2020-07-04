@@ -6,14 +6,7 @@ using ChatBotPrime.FrontEnd.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Reflection;
-using System.Linq;
-using ChatBotPrime.Core.Services.CommandHandler;
-using ChatBotPrime.Core.Interfaces.Chat;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Security.Cryptography;
-using ChatBotPrime.Core.Services.CommandHandler.Commands;
+using ChatBotPrime.FrontEnd.Hubs;
 
 namespace ChatBotPrime.FrontEnd
 {
@@ -35,6 +28,7 @@ namespace ChatBotPrime.FrontEnd
 			services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 			services.AddRazorPages();
+			services.AddSignalR();
 
 		}
 
@@ -66,6 +60,7 @@ namespace ChatBotPrime.FrontEnd
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapRazorPages();
+				endpoints.MapHub<ChatHub>("/chathub");
 			});
 		}
 	}

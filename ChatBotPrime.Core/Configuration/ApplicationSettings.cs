@@ -6,6 +6,8 @@ namespace ChatBotPrime.Core.Configuration
 	{
 		public TwitchSettings TwitchSettings { get; set; }
 		public DiscordSettings DiscordSettings { get; set; }
+
+		public SignalRSettings SignalRSettings { get; set; }
 	}
 
 }

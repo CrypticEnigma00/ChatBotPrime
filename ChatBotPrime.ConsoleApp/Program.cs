@@ -3,6 +3,7 @@ using ChatBotPrime.Core.Interfaces.Chat;
 using ChatBotPrime.Infra.Chat.Discord;
 using ChatBotPrime.Infra.Chat.Twitch;
 using ChatBotPrime.Infra.CommandHander;
+using ChatBotPrime.Infra.SignalRCommunication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -27,8 +28,9 @@ namespace ChatBotPrime.ConsoleApp
 
 			var sp = services.BuildServiceProvider();
 
-			IEnumerable<IChatService> chatServices = sp.GetServices<IChatService>();
-			CommandHandlerService ch = sp.GetService<CommandHandlerService>();
+			var chatServices = sp.GetServices<IChatService>();
+			var ch = sp.GetService<CommandHandlerService>();
+			var sr = sp.GetService<SignalRService>();
 
 
 			Console.ReadLine();
@@ -53,6 +55,7 @@ namespace ChatBotPrime.ConsoleApp
 
 		private static void ConfigureServices(IServiceCollection services)
 		{
+			
 			var section = Configuration.GetSection("AppSettings");
 
 			services.Configure<ApplicationSettings>(section);
@@ -62,6 +65,7 @@ namespace ChatBotPrime.ConsoleApp
 			ConfigureChatServices(services, section);
 
 			services.AddSingleton<CommandHandlerService>();
+			services.AddSingleton<SignalRService>();
 
 		}
 
