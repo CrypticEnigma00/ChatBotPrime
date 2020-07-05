@@ -8,8 +8,11 @@ namespace ChatBotPrime.Core.Services.CommandHandler.Commands
 	{
 		public override string CommandText => "Ping";
 
-		public override string Response => "Pong";
-
 		public override TimeSpan Cooldown => TimeSpan.FromSeconds(0);
+
+		public override string Response()
+		{
+			return "Pong";
+		}
 	}
 }

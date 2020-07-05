@@ -8,6 +8,6 @@ namespace ChatBotPrime.Core.Interfaces.Chat
 		TimeSpan Cooldown { get; }
 		bool IsAllowedToRun { get; }
 		DateTime LastRun { get; set; }
-		string Response { get; }
+		string Response();
 	}
 }

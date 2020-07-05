@@ -1,5 +1,7 @@
 ﻿using ChatBotPrime.Core.Events.EventArguments;
 using ChatBotPrime.Core.Interfaces.Chat;
+using ChatBotPrime.Core.Interfaces.Stream;
+using ChatBotPrime.Core.Services.CommandHandler;
 using ChatBotPrime.Core.Services.CommandHandler.Commands;
 using System;
 using System.Collections.Generic;
@@ -40,7 +42,19 @@ namespace ChatBotPrime.Infra.CommandHander
 		{
 			var command = GetCommand(e.CommandText);
 
-			((IChatService)sender).SendMessage(command.Response);
+			if (command is IStreamCommand)
+			{
+				if (!(sender is IStreamService))
+				{
+					((IChatService)sender).SendMessage("Command is for use in stream Services and cannot be run from a chat only Service");
+					return;
+				}
+				((IStreamService)sender).SendMessage(((IStreamCommand)command).Response((IStreamService)sender));
+				return;
+			};
+
+			((IChatService)sender).SendMessage(command.Response());
+
 		}
 
 		private IChatCommand GetCommand(string commandText)

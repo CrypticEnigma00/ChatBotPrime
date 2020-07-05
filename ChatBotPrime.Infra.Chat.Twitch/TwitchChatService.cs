@@ -9,12 +9,16 @@ using TwitchLib.Client.Models;
 using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Models;
 using Microsoft.Extensions.Logging;
+using ChatBotPrime.Core.Interfaces.Stream;
+using TwitchLib.Api;
+using System.Linq;
 
 namespace ChatBotPrime.Infra.Chat.Twitch
 {
-	public class TwitchChatService : IChatService
+	public class TwitchChatService : IStreamService 
 	{
 		private TwitchClient _client;
+		private TwitchAPI _api = new TwitchAPI();
 		private readonly TwitchSettings _settings;
 		private JoinedChannel _channel;
 		private ILogger<TwitchChatService> _logger;
@@ -102,6 +106,8 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 		private void Initialize(ConnectionCredentials creds)
 		{
 			_client.Initialize(creds);
+			_api.Settings.ClientId = _settings.ClientId;
+			_api.Settings.AccessToken = _settings.Token;
 		}
 
 		private void ConfigureHandlers()
@@ -175,5 +181,15 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 			}
 		}
 
+		public string UpTime()
+		{
+			var channel = _api.V5.Users.GetUserByNameAsync(_settings.Channel).Result.Matches.FirstOrDefault();
+			if (channel == null) return "";
+
+			var online = _api.V5.Streams.BroadcasterOnlineAsync(channel.Id).Result;
+			if (!online) return "offline";
+
+			return _api.V5.Streams.GetUptimeAsync(channel.Id).Result.ToString();
+		}
 	}
 }
