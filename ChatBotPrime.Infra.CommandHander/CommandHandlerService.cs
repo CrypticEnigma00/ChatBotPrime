@@ -12,15 +12,15 @@ namespace ChatBotPrime.Infra.CommandHander
 	public class CommandHandlerService
 	{
 		private IEnumerable<IChatService> _chatServices;
-		private List<IChatCommand> _commands;
+		private IEnumerable<IChatCommand> _commands;
 		
 
-		public CommandHandlerService(IEnumerable<IChatService>  chatServices)
+		public CommandHandlerService(IEnumerable<IChatService>  chatServices, IEnumerable<IChatCommand> commands)
 		{
 			_chatServices = chatServices;
 
 			AddEventHandlersToChatServices();
-			GetCommandList();
+			_commands = commands;
 		}
 
 		private void AddEventHandlersToChatServices()
@@ -29,13 +29,6 @@ namespace ChatBotPrime.Infra.CommandHander
 			{
 				svc.OnCommandReceived += CommandHander;
 			}
-		}
-
-		private void GetCommandList()
-		{
-			_commands = new List<IChatCommand>();
-			_commands.Add(new PingCommand());
-			_commands.Add(new UpTimeCommand());
 		}
 
 		private void CommandHander(object sender, ChatCommandReceivedEventArgs e)

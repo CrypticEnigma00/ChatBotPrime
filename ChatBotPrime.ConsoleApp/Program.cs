@@ -1,5 +1,7 @@
 ﻿using ChatBotPrime.Core.Configuration;
 using ChatBotPrime.Core.Interfaces.Chat;
+using ChatBotPrime.Core.Services.CommandHandler;
+using ChatBotPrime.Core.Services.CommandHandler.Commands;
 using ChatBotPrime.Infra.Chat.Discord;
 using ChatBotPrime.Infra.Chat.Twitch;
 using ChatBotPrime.Infra.CommandHander;
@@ -10,7 +12,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
+using System.Reflection;
 
 namespace ChatBotPrime.ConsoleApp
 {
@@ -83,6 +86,19 @@ namespace ChatBotPrime.ConsoleApp
 			{
 				services.AddSingleton<IChatService, DiscordChatService>();
 			}
+
+			ConfigureChatCommands(services);
+		}
+
+		private static void ConfigureChatCommands(IServiceCollection services)
+		{
+			IEnumerable<IChatCommand> commands = Assembly.GetAssembly(typeof(PingCommand)).GetTypes()
+				.Where(x => x.Namespace == "ChatBotPrime.Core.Services.CommandHandler.Commands")
+				.Where(x => x.IsClass)
+				.Select(x => (IChatCommand)Activator.CreateInstance(x));
+
+
+			services.AddSingleton(commands);
 		}
 	}
 }
