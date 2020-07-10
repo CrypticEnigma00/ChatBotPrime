@@ -1,4 +1,5 @@
-﻿using ChatBotPrime.Core.Interfaces.Stream;
+﻿using ChatBotPrime.Core.Interfaces.Chat;
+using ChatBotPrime.Core.Interfaces.Stream;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -9,12 +10,13 @@ namespace ChatBotPrime.Core.Services.CommandHandler.Commands
 	public class UpTimeCommand : StreamCommand
 	{
 		public override string CommandText => "Uptime";
-
 		public override TimeSpan Cooldown => TimeSpan.FromSeconds(300);
 
-		public override string Response(IStreamService streamService)
+		public override string Response(IChatService streamService)
 		{
-			var upTime = streamService.UpTime();
+			var service = (IStreamService)streamService;
+
+			var upTime = service.UpTime();
 
 			if (upTime.ToLower() == "offline")
 			{
@@ -23,5 +25,7 @@ namespace ChatBotPrime.Core.Services.CommandHandler.Commands
 
 			return $"The Stream has been running for { upTime }";
 		}
+
+
 	}
 }

@@ -1,16 +1,13 @@
 ﻿using ChatBotPrime.Core.Configuration;
 using ChatBotPrime.Core.Interfaces.Chat;
-using ChatBotPrime.Core.Services.CommandHandler;
-using ChatBotPrime.Core.Services.CommandHandler.Commands;
 using ChatBotPrime.Infra.Chat.Discord;
 using ChatBotPrime.Infra.Chat.Twitch;
-using ChatBotPrime.Infra.CommandHander;
+using ChatBotPrime.Infra.ChatHander;
 using ChatBotPrime.Infra.SignalRCommunication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -23,7 +20,7 @@ namespace ChatBotPrime.ConsoleApp
 
 		static void Main(string[] args)
 		{
-			SetConfiguration(args);
+			SetSignalRConfiguration(args);
 
 			IServiceCollection services = new ServiceCollection();
 
@@ -32,7 +29,7 @@ namespace ChatBotPrime.ConsoleApp
 			var sp = services.BuildServiceProvider();
 
 			var chatServices = sp.GetServices<IChatService>();
-			var ch = sp.GetService<CommandHandlerService>();
+			var ch = sp.GetService<ChatHandlerService>();
 			var sr = sp.GetService<SignalRService>();
 
 
@@ -45,7 +42,7 @@ namespace ChatBotPrime.ConsoleApp
 
 		}
 
-		private static void SetConfiguration(string[] args)
+		private static void SetSignalRConfiguration(string[] args)
 		{
 			Configuration = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
@@ -66,8 +63,9 @@ namespace ChatBotPrime.ConsoleApp
 			services.AddLogging(configure => configure.AddConsole());
 
 			ConfigureChatServices(services, section);
+			ConfigureChatMessages(services);
 
-			services.AddSingleton<CommandHandlerService>();
+			services.AddSingleton<ChatHandlerService>();
 			services.AddSingleton<SignalRService>();
 
 		}
@@ -77,28 +75,31 @@ namespace ChatBotPrime.ConsoleApp
 			var TwitchSettings = section.GetSection("TwitchSettings").Get<TwitchSettings>();
 			var DiscordSettings = section.GetSection("DiscordSettings").Get<DiscordSettings>();
 
-			if (TwitchSettings.Enabled)
-			{
-				services.AddSingleton<IChatService, TwitchChatService>();
-			}
-
-			if (DiscordSettings.Enabled)
-			{
-				services.AddSingleton<IChatService, DiscordChatService>();
-			}
+			if (TwitchSettings.Enabled) services.AddSingleton<IChatService, TwitchChatService>();
+			if (DiscordSettings.Enabled) services.AddSingleton<IChatService, DiscordChatService>();
 
 			ConfigureChatCommands(services);
 		}
 
 		private static void ConfigureChatCommands(IServiceCollection services)
 		{
-			IEnumerable<IChatCommand> commands = Assembly.GetAssembly(typeof(PingCommand)).GetTypes()
+			var commands = Assembly.GetAssembly(typeof(IChatCommand)).GetTypes()
 				.Where(x => x.Namespace == "ChatBotPrime.Core.Services.CommandHandler.Commands")
 				.Where(x => x.IsClass)
 				.Select(x => (IChatCommand)Activator.CreateInstance(x));
 
 
 			services.AddSingleton(commands);
+		}
+
+		private static void ConfigureChatMessages(IServiceCollection services)
+		{
+			var messages = Assembly.GetAssembly(typeof(IChatMessage)).GetTypes()
+				.Where(x => x.Namespace == "ChatBotPrime.Core.Services.CommandHandler.Messages")
+				.Where(x => x.IsClass)
+				.Select(x => (IChatMessage)Activator.CreateInstance(x));
+
+			services.AddSingleton(messages);
 		}
 	}
 }

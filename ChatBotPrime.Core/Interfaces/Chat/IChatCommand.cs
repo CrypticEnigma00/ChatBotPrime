@@ -4,10 +4,12 @@ namespace ChatBotPrime.Core.Interfaces.Chat
 {
 	public interface IChatCommand
 	{
+		
 		string CommandText { get; }
 		TimeSpan Cooldown { get; }
 		bool IsAllowedToRun { get; }
 		DateTime LastRun { get; set; }
-		string Response();
+		bool IsMatch(string command);
+		string Response(IChatService service);
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatBotPrime.Core.Interfaces.Chat;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace ChatBotPrime.Core.Services.CommandHandler.Commands
 
 		public override TimeSpan Cooldown => TimeSpan.FromSeconds(0);
 
-		public override string Response()
+		public override string Response(IChatService chatService)
 		{
 			return "Pong";
 		}

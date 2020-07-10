@@ -7,6 +7,5 @@ namespace ChatBotPrime.Core.Interfaces.Stream
 {
 	public interface IStreamCommand : IChatCommand
 	{
-		string Response(IStreamService streamService);
 	}
 }

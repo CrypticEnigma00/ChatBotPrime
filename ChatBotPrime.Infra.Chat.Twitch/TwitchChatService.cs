@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using ChatBotPrime.Core.Interfaces.Stream;
 using TwitchLib.Api;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace ChatBotPrime.Infra.Chat.Twitch
 {
@@ -158,7 +159,7 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 
 			if (!msg.StartsWith(_settings.CommandIdentifier.ToString()))
 			{
-				_logger.LogInformation("Message Received from Chat");
+				_logger.LogInformation($"Message Received from Chat user : {args.ChatMessage.Username} message: {args.ChatMessage.Message}");
 
 				var eventArgs = new ChatMessageReceivedEventArgs( new Core.Events.EventArguments.ChatMessage(
 						args.ChatMessage.Message,
@@ -184,12 +185,12 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 		public string UpTime()
 		{
 			var channel = _api.V5.Users.GetUserByNameAsync(_settings.Channel).Result.Matches.FirstOrDefault();
-			if (channel == null) return "";
+			if (channel == null) throw new KeyNotFoundException("Channel not found");
 
 			var online = _api.V5.Streams.BroadcasterOnlineAsync(channel.Id).Result;
 			if (!online) return "offline";
 
-			return _api.V5.Streams.GetUptimeAsync(channel.Id).Result.ToString();
+			return ((TimeSpan)_api.V5.Streams.GetUptimeAsync(channel.Id).Result).ToString(@"dd\.hh\:mm\:ss");
 		}
 	}
 }
