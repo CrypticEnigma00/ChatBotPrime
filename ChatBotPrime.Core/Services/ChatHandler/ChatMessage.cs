@@ -8,7 +8,10 @@ namespace ChatBotPrime.Core.Services.CommandHandler
 	{
 		public abstract string MessageText { get; }
 
-		public abstract bool IsMatch(string messageText);
+		public virtual bool IsMatch(string messageText)
+		{
+			return messageText.Contains(MessageText);
+		}
 		
 		public abstract string Response(ChatMessageReceivedEventArgs e);
 	}
