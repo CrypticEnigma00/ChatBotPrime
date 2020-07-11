@@ -1,9 +1,12 @@
 ﻿using ChatBotPrime.Core.Configuration;
+using ChatBotPrime.Core.Data;
 using ChatBotPrime.Core.Interfaces.Chat;
 using ChatBotPrime.Infra.Chat.Discord;
 using ChatBotPrime.Infra.Chat.Twitch;
 using ChatBotPrime.Infra.ChatHander;
+using ChatBotPrime.Infra.Data.EF;
 using ChatBotPrime.Infra.SignalRCommunication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -27,6 +30,10 @@ namespace ChatBotPrime.ConsoleApp
 			ConfigureServices(services);
 
 			var sp = services.BuildServiceProvider();
+
+			var repo = sp.GetService<IRepository>();
+			var appDataContext = sp.GetService<AppDataContext>();
+			SetupDatabase.Configure(appDataContext, repo);
 
 			var chatServices = sp.GetServices<IChatService>();
 			var ch = sp.GetService<ChatHandlerService>();
@@ -57,10 +64,20 @@ namespace ChatBotPrime.ConsoleApp
 		{
 			
 			var section = Configuration.GetSection("AppSettings");
+			var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
 			services.Configure<ApplicationSettings>(section);
 
 			services.AddLogging(configure => configure.AddConsole());
+			services.AddDbContext<AppDataContext>(options => 
+				options.UseSqlServer(connectionString, x => x.MigrationsAssembly("ChatBotPrime.Infra.Data.EF"))
+			);
+
+
+			services.AddSingleton<IRepository, EfGenericRepo>();
+			//var repository = SetupDatabase.SetupRepository(connectionString);
+
+			//services.AddSingleton(repository);
 
 			ConfigureChatServices(services, section);
 			ConfigureChatMessages(services);

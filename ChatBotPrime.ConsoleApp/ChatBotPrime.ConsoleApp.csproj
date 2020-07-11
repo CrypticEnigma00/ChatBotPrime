@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.5" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.5" />
       <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.5" />
@@ -33,6 +38,7 @@
     <ProjectReference Include="..\ChatBotPrime.Infra.Chat.Discord\ChatBotPrime.Infra.Chat.Discord.csproj" />
     <ProjectReference Include="..\ChatBotPrime.Infra.Chat.Twitch\ChatBotPrime.Infra.Chat.Twitch.csproj" />
     <ProjectReference Include="..\ChatBotPrime.Infra.CommandHander\ChatBotPrime.Infra.ChatHander.csproj" />
+    <ProjectReference Include="..\ChatBotPrime.Infra.Data.EF\ChatBotPrime.Infra.Data.EF.csproj" />
     <ProjectReference Include="..\ChatBotPrime.Infra.SignalRCommunication\ChatBotPrime.Infra.SignalRCommunication.csproj" />
   </ItemGroup>
 
