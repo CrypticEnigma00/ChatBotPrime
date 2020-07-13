@@ -24,13 +24,13 @@ namespace ChatBotPrime.Infra.Data.EF
 
 		private static void EnsureInitialData(IRepository repository)
 		{
-			if (!repository.List<BasicCommand>().Any())
+			if (!repository.ListAsync<BasicCommand>().Result.Any())
 			{
 				var ping = new BasicCommand("Ping", "Pong");
-				repository.Create(ping);
+				repository.CreateAsync(ping);
 			}
 
-			if (!repository.List<BasicMessage>().Any())
+			if (!repository.ListAsync<BasicMessage>().Result.Any())
 			{
 				var greet = new BasicMessage("Hello", "Welcome to the chat please join us for some fun");
 				var greetAliases = new List<MessageAlias>
@@ -41,7 +41,7 @@ namespace ChatBotPrime.Infra.Data.EF
 
 				greet.Aliases = greetAliases;
 
-				repository.Create(greet);
+				repository.CreateAsync(greet);
 			}
 		}
 	}

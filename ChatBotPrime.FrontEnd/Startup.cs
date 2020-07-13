@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using ChatBotPrime.FrontEnd.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ChatBotPrime.FrontEnd.Hubs;
+using ChatBotPrime.Infra.Data.EF;
+using Microsoft.Extensions.Logging;
+using ChatBotPrime.Core.Data;
 
 namespace ChatBotPrime.FrontEnd
 {
@@ -22,14 +24,18 @@ namespace ChatBotPrime.FrontEnd
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseSqlite(
-					Configuration.GetConnectionString("DefaultConnection")));
+			services.AddDbContext<AppDataContext>(options =>
+				options.UseLazyLoadingProxies()
+				.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-				.AddEntityFrameworkStores<ApplicationDbContext>();
+				.AddEntityFrameworkStores<AppDataContext>();
 			services.AddRazorPages();
 			services.AddSignalR();
 
+			services.AddLogging(configure => configure.AddConsole());
+
+
+			services.AddScoped<IRepository, EfGenericRepo>();
 		}
 
 	

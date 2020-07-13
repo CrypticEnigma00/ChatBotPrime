@@ -2,10 +2,9 @@
 using ChatBotPrime.Core.Data.Model;
 using ChatBotPrime.Core.Data.Specifications;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace ChatBotPrime.Infra.Data.EF
 {
@@ -18,57 +17,57 @@ namespace ChatBotPrime.Infra.Data.EF
 			_db = db;
 		}
 
-		public T Single<T>(ISpecification<T> spec) where T : DataEntity
+		public async Task<T> SingleAsync<T>(ISpecification<T> spec) where T : DataEntity
 		{
 			IQueryable<T> setWithIncludes = SetWithIncludes(spec);
-			return setWithIncludes.SingleOrDefault(spec.Criteria);
+			return await setWithIncludes.SingleOrDefaultAsync(spec.Criteria);
 		}
 
-		public List<T> List<T>(ISpecification<T> spec) where T : DataEntity
+		public async Task<List<T>> ListAsync<T>(ISpecification<T> spec) where T : DataEntity
 		{
 			return spec != null
-				? SetWithIncludes(spec).Where(spec.Criteria).ToList()
-				: _db.Set<T>().ToList();
+				? await SetWithIncludes(spec).Where(spec.Criteria).ToListAsync()
+				: await _db.Set<T>().ToListAsync();
 		}
 
-		public T Create<T>(T dataItem) where T : DataEntity
+		public async  Task<T> CreateAsync<T>(T dataItem) where T : DataEntity
 		{
-			_db.Set<T>().Add(dataItem);
-			_db.SaveChanges();
+			await _db.Set<T>().AddAsync(dataItem);
+			await _db.SaveChangesAsync();
 
 			return dataItem;
 		}
 
-		public T Update<T>(T dataItem) where T : DataEntity
+		public async Task<T> UpdateAsync<T>(T dataItem) where T : DataEntity
 		{
 			_db.Set<T>().Update(dataItem);
-			_db.SaveChanges();
+			await _db.SaveChangesAsync();
 
 			return dataItem;
 		}
 
-		public void Update<T>(List<T> dataItemList) where T : DataEntity
+		public async Task UpdateAsync<T>(List<T> dataItemList) where T : DataEntity
 		{
 			_db.Set<T>().UpdateRange(dataItemList);
-			_db.SaveChanges();
+			await _db.SaveChangesAsync();
 		}
 
-		public void Create<T>(List<T> dataItemList) where T : DataEntity
+		public async Task CreateAsync<T>(List<T> dataItemList) where T : DataEntity
 		{
-			_db.Set<T>().AddRange(dataItemList);
-			_db.SaveChanges();
+			await _db.Set<T>().AddRangeAsync(dataItemList);
+			await _db.SaveChangesAsync();
 		}
 
-		public void Remove<T>(T dataItem) where T : DataEntity
+		public async Task RemoveAsync<T>(T dataItem) where T : DataEntity
 		{
 			_db.Set<T>().Remove(dataItem);
-			_db.SaveChanges();
+			await _db.SaveChangesAsync();
 		}
 
-		public void Remove<T>(List<T> dataItems) where T : DataEntity
+		public async Task RemoveAsync<T>(List<T> dataItems) where T : DataEntity
 		{
 			_db.Set<T>().RemoveRange(dataItems);
-			_db.SaveChanges();
+			await _db.SaveChangesAsync();
 		}
 
 		private IQueryable<T> SetWithIncludes<T>(ISpecification<T> spec) where T : DataEntity

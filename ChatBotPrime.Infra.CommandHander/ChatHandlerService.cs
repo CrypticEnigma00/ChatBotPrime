@@ -24,8 +24,8 @@ namespace ChatBotPrime.Infra.ChatHander
 			
 			AddEventHandlersToChatServices();
 
-			_commands.AddRange(repository.List(BasicCommandPolicy.All()).AsEnumerable());
-			_messages.AddRange(repository.List(BasicMessagePolicy.All()).AsEnumerable());
+			_commands.AddRange(repository.ListAsync(BasicCommandPolicy.All()).Result.AsEnumerable());
+			_messages.AddRange(repository.ListAsync(BasicMessagePolicy.All()).Result.AsEnumerable());
 		}
 
 		private void AddEventHandlersToChatServices()
