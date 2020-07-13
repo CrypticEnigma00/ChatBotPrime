@@ -4,14 +4,16 @@ using ChatBotPrime.Infra.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChatBotPrime.Infra.Data.EF.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20200713115243_Commandchange")]
+    partial class Commandchange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +53,7 @@ namespace ChatBotPrime.Infra.Data.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("MessageText")
+                    b.Property<string>("MessageTest")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Response")
@@ -90,7 +92,7 @@ namespace ChatBotPrime.Infra.Data.EF.Migrations
                     b.Property<Guid?>("MessageId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Word")
+                    b.Property<string>("Response")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

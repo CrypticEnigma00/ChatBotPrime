@@ -6,7 +6,7 @@ namespace ChatBotPrime.Core.Data.Model
 {
 	public class CommandAlias	: DataEntity
 	{
-		public BasicCommand command { get; set; }
+		public virtual BasicCommand command { get; set; }
 		public string Word { get; set; }
 	}
 }

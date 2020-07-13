@@ -17,7 +17,17 @@ namespace ChatBotPrime.Infra.Data.EF
 			
 		}
 
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+			modelBuilder.Entity<BasicCommand>()
+				.HasMany(c => c.Aliases)
+				.WithOne(a => a.command);
 
+			modelBuilder.Entity<BasicMessage>()
+				.HasMany(m => m.Aliases)
+				.WithOne(a => a.Message);
+		}
 	}
 
 	public class AppDataContextFactory : IDesignTimeDbContextFactory<AppDataContext>

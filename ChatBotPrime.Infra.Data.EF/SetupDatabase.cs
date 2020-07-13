@@ -17,20 +17,6 @@ namespace ChatBotPrime.Infra.Data.EF
 			EnsureInitialData(repository);
 		}
 
-		//public static IRepository SetupRepository(string connectionString)
-		//{
-		//	DbContextOptions<AppDataContext> options = new DbContextOptionsBuilder<AppDataContext>()
-		//	   .UseSqlServer(connectionString)
-		//	   .Options;
-
-		//	AppDataContext appDataContext = new AppDataContext(options);
-
-		//	EnsureDatabase(appDataContext);
-		//	var repository = new EfGenericRepo(appDataContext);
-		//	EnsureInitialData(repository);
-
-		//	return repository;
-		//}
 		private static void EnsureDatabase(AppDataContext appDataContext)
 		{
 			appDataContext.Database.Migrate();
@@ -40,12 +26,22 @@ namespace ChatBotPrime.Infra.Data.EF
 		{
 			if (!repository.List<BasicCommand>().Any())
 			{
-				//TODO:Database: Implament Base Commands to be added 
+				var ping = new BasicCommand("Ping", "Pong");
+				repository.Create(ping);
 			}
 
 			if (!repository.List<BasicMessage>().Any())
 			{
-				//TODO:Database: Implament Base Messages to be added 
+				var greet = new BasicMessage("Hello", "Welcome to the chat please join us for some fun");
+				var greetAliases = new List<MessageAlias>
+				{
+					new MessageAlias(greet,"Hi "),
+					new MessageAlias(greet, "Hey")
+				};
+
+				greet.Aliases = greetAliases;
+
+				repository.Create(greet);
 			}
 		}
 	}

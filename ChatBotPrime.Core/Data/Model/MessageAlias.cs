@@ -6,7 +6,14 @@ namespace ChatBotPrime.Core.Data.Model
 {
 	public class MessageAlias  : DataEntity
 	{
-		public BasicMessage Message { get; set; }
-		public string Response { get; set; }
+		public MessageAlias()
+		{}
+		public MessageAlias(BasicMessage message, string word)
+		{
+			Message = message;
+			Word = word;
+		}
+		public virtual BasicMessage Message { get; set; }
+		public string Word { get; set; }
 	}
 }

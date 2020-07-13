@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBotPrime.Infra.SignalRC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{604B6851-94E0-499E-A9AF-75BC71CA9B89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBotPrime.Infra.Data.EF", "ChatBotPrime.Infra.Data.EF\ChatBotPrime.Infra.Data.EF.csproj", "{FDA19490-9A0B-4916-B61A-0C4E332D6E04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBotPrime.Infra.Data.EF", "ChatBotPrime.Infra.Data.EF\ChatBotPrime.Infra.Data.EF.csproj", "{FDA19490-9A0B-4916-B61A-0C4E332D6E04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

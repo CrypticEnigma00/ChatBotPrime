@@ -10,6 +10,7 @@ namespace ChatBotPrime.Core.Data.Specifications
 	{
 		protected BasicCommandPolicy(Expression<Func<BasicCommand, bool>> expression) : base(expression)
 		{
+			AddInclude(cw => cw.Aliases);
 		}
 	}
 }

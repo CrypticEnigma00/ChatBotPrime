@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -19,39 +20,41 @@ namespace ChatBotPrime.ConsoleApp
 {
 	class Program
 	{
-		private static IConfiguration Configuration { get; set; }
+		private static IConfiguration _configuration { get; set; }
 
 		static void Main(string[] args)
 		{
-			SetSignalRConfiguration(args);
 
-			IServiceCollection services = new ServiceCollection();
+			SetupConfiguration(args);
 
-			ConfigureServices(services);
+			//Configure and instanciate the Service provider.
+			var sp = ConfigureServices().BuildServiceProvider();
 
-			var sp = services.BuildServiceProvider();
-
+			//Configure and migrate the DB before it is used.
 			var repo = sp.GetService<IRepository>();
 			var appDataContext = sp.GetService<AppDataContext>();
 			SetupDatabase.Configure(appDataContext, repo);
 
+
+			//Instanciate the required services for running.
 			var chatServices = sp.GetServices<IChatService>();
 			var ch = sp.GetService<ChatHandlerService>();
 			var sr = sp.GetService<SignalRService>();
 
 
+			//Hold console open
 			Console.ReadLine();
 
+			//Dispose of services before application exit.
 			foreach (var svc in chatServices)
 			{
 				svc.Disconnect();
 			}
-
 		}
 
-		private static void SetSignalRConfiguration(string[] args)
+		private static void SetupConfiguration(string[] args)
 		{
-			Configuration = new ConfigurationBuilder()
+			_configuration = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
 				.AddJsonFile("appsettings.json", true, true)
 				.AddUserSecrets<Program>()
@@ -60,24 +63,23 @@ namespace ChatBotPrime.ConsoleApp
 				.Build();
 		}
 
-		private static void ConfigureServices(IServiceCollection services)
+		private static IServiceCollection ConfigureServices()
 		{
-			
-			var section = Configuration.GetSection("AppSettings");
-			var connectionString = Configuration.GetConnectionString("DefaultConnection");
+			IServiceCollection services = new ServiceCollection();
+
+			var section = _configuration.GetSection("AppSettings");
+			var connectionString = _configuration.GetConnectionString("DefaultConnection");
 
 			services.Configure<ApplicationSettings>(section);
 
 			services.AddLogging(configure => configure.AddConsole());
 			services.AddDbContext<AppDataContext>(options => 
-				options.UseSqlServer(connectionString, x => x.MigrationsAssembly("ChatBotPrime.Infra.Data.EF"))
+				options.UseLazyLoadingProxies()
+				.UseSqlServer(connectionString, x => x.MigrationsAssembly("ChatBotPrime.Infra.Data.EF"))
 			);
 
 
 			services.AddSingleton<IRepository, EfGenericRepo>();
-			//var repository = SetupDatabase.SetupRepository(connectionString);
-
-			//services.AddSingleton(repository);
 
 			ConfigureChatServices(services, section);
 			ConfigureChatMessages(services);
@@ -85,6 +87,7 @@ namespace ChatBotPrime.ConsoleApp
 			services.AddSingleton<ChatHandlerService>();
 			services.AddSingleton<SignalRService>();
 
+			return services;
 		}
 
 		private static void ConfigureChatServices(IServiceCollection services,IConfigurationSection section)
