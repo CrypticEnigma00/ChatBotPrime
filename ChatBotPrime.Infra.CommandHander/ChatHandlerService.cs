@@ -3,6 +3,7 @@ using ChatBotPrime.Core.Data.Specifications;
 using ChatBotPrime.Core.Events.EventArguments;
 using ChatBotPrime.Core.Interfaces.Chat;
 using ChatBotPrime.Core.Interfaces.Stream;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,19 +14,29 @@ namespace ChatBotPrime.Infra.ChatHander
 		private IEnumerable<IChatService> _chatServices;
 		private List<IChatCommand> _commands;
 		private List<IChatMessage> _messages;
+		private ILogger<ChatHandlerService> _logger;
 
 
-		public ChatHandlerService(IEnumerable<IChatService> chatServices, IEnumerable<IChatCommand> commands, IEnumerable<IChatMessage> messages, IRepository repository)
+		public ChatHandlerService(IEnumerable<IChatService> chatServices, IEnumerable<IChatCommand> commands, IEnumerable<IChatMessage> messages, IRepository repository, ILogger<ChatHandlerService> logger)
 		{
+			_logger = logger;
 			_chatServices = chatServices;
 
 			_commands = commands.ToList();
 			_messages = messages.ToList();
 			
+
 			AddEventHandlersToChatServices();
 
 			_commands.AddRange(repository.ListAsync(BasicCommandPolicy.All()).Result.AsEnumerable());
 			_messages.AddRange(repository.ListAsync(BasicMessagePolicy.All()).Result.AsEnumerable());
+
+			_logger.LogInformation($"Number of chat Services added to chat handler: {_chatServices.Count()}");
+
+			_logger.LogInformation($"Number of chat commands added to chat handler: {_commands.Count}");
+			_logger.LogInformation($"Number of chat messages added to chat hansler: {_messages.Count}");
+
+
 		}
 
 		private void AddEventHandlersToChatServices()
@@ -46,7 +57,7 @@ namespace ChatBotPrime.Infra.ChatHander
 				if (command is IStreamCommand)
 				{
 					if (!(service is IStreamService))
-					{
+					{	
 						service.SendMessage("Command is for use in stream based Service and cannot be run from a chat only Service");
 					}
 				}

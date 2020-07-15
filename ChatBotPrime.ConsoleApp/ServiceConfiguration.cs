@@ -9,6 +9,7 @@ using ChatBotPrime.Infra.SignalRCommunication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
@@ -72,9 +73,13 @@ namespace ChatBotPrime.ConsoleApp
 			var commands = Assembly.GetAssembly(typeof(IChatCommand)).GetTypes()
 				.Where(x => x.Namespace == "ChatBotPrime.Core.Services.CommandHandler.Commands")
 				.Where(x => x.IsClass)
-				.Select(x => (IChatCommand)Activator.CreateInstance(x));
+				.Select(x => x);
 
-			services.AddSingleton(commands);
+
+			foreach (var cmd in commands)
+			{
+				services.AddSingleton(sp => ActivatorUtilities.CreateInstance(sp, cmd));
+			}
 		}
 
 		private static void ConfigureChatMessages(IServiceCollection services)
@@ -82,9 +87,12 @@ namespace ChatBotPrime.ConsoleApp
 			var messages = Assembly.GetAssembly(typeof(IChatMessage)).GetTypes()
 				.Where(x => x.Namespace == "ChatBotPrime.Core.Services.CommandHandler.Messages")
 				.Where(x => x.IsClass)
-				.Select(x => (IChatMessage)Activator.CreateInstance(x));
+				.Select(x => x);
 
-			services.AddSingleton(messages);
+			foreach (var msg in messages)
+			{
+				services.AddSingleton(sp => ActivatorUtilities.CreateInstance(sp, msg));
+			}
 
 		}
 	}
