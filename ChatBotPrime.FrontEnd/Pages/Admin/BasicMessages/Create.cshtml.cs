@@ -32,8 +32,6 @@ namespace ChatBotPrime.FrontEnd.Pages.Admin.BasicMessages
 		
 		public async Task<IActionResult> OnPostAsync()
 		{
-
-
 			var emptyBasicMessage = new BasicMessage();
 
 			if (await TryUpdateModelAsync(

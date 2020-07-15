@@ -40,7 +40,6 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 				Initialize(creds);
 				ConfigureHandlers();
 				_client.AddChatCommandIdentifier(_settings.CommandIdentifier);
-				_client.Connect();
 			}
 
 		}
