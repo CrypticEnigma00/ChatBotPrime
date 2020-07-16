@@ -22,7 +22,7 @@ namespace ChatBotPrime.ConsoleApp
 		//private ChatHandlerService _chatHandlerService;
 		//private SignalRService _signalRService;
 
-		public ChatBotPrimeService(IRepository repository, AppDataContext appDataContext, IEnumerable<IChatService> chatServices)//, ChatHandlerService chatHandlerService, SignalRService signalRService)
+		public ChatBotPrimeService(IRepository repository, AppDataContext appDataContext, IEnumerable<IChatService> chatServices, ChatHandlerService chatHandlerService, SignalRService signalRService)
 		{
 			_repository = repository;
 			_appDataContext = appDataContext;

@@ -32,7 +32,7 @@ namespace ChatBotPrime.Infra.Data.EF
 
 			if (!repository.ListAsync<BasicMessage>().Result.Any())
 			{
-				var greet = new BasicMessage("Hello", "Welcome to the chat please join us for some fun");
+				var greet = new BasicMessage("Hello", "Welcome [UserDisplayName] to the chat please join us for some fun");
 				var greetAliases = new List<MessageAlias>
 				{
 					new MessageAlias(greet,"Hi "),
