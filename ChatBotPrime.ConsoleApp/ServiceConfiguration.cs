@@ -78,7 +78,7 @@ namespace ChatBotPrime.ConsoleApp
 
 			foreach (var cmd in commands)
 			{
-				services.AddSingleton(sp => ActivatorUtilities.CreateInstance(sp, cmd));
+				services.AddSingleton(sp => (IChatCommand)ActivatorUtilities.CreateInstance(sp, cmd));
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace ChatBotPrime.ConsoleApp
 
 			foreach (var msg in messages)
 			{
-				services.AddSingleton(sp => ActivatorUtilities.CreateInstance(sp, msg));
+				services.AddSingleton(sp => (IChatMessage)ActivatorUtilities.CreateInstance(sp, msg));
 			}
 
 		}

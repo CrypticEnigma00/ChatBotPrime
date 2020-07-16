@@ -22,7 +22,7 @@ namespace ChatBotPrime.ConsoleApp
 		//private ChatHandlerService _chatHandlerService;
 		//private SignalRService _signalRService;
 
-		public ChatBotPrimeService(IRepository repository, AppDataContext appDataContext, IEnumerable<IChatService> chatServices, ChatHandlerService chatHandlerService, SignalRService signalRService)
+		public ChatBotPrimeService(IRepository repository, AppDataContext appDataContext, IEnumerable<IChatService> chatServices)//, ChatHandlerService chatHandlerService, SignalRService signalRService)
 		{
 			_repository = repository;
 			_appDataContext = appDataContext;
@@ -30,12 +30,7 @@ namespace ChatBotPrime.ConsoleApp
 			//_chatHandlerService = chatHandlerService;
 			//_signalRService = signalRService;
 
-			ConfigureDB();
-		}
-
-		private void ConfigureDB()
-		{
-			SetupDatabase.Configure(_appDataContext,_repository);
+			SetupDatabase.Configure(_appDataContext, _repository);
 		}
 
 		public Task StartAsync(CancellationToken cancellationToken)

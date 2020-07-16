@@ -33,7 +33,7 @@ namespace ChatBotPrime.Infra.ChatHander
 
 			_logger.LogInformation($"Number of chat Services added to chat handler: {_chatServices.Count()}");
 			_logger.LogInformation($"Number of chat commands added to chat handler: {_commands.Count}");
-			_logger.LogInformation($"Number of chat messages added to chat hansler: {_messages.Count}");
+			_logger.LogInformation($"Number of chat messages added to chat handler: {_messages.Count}");
 		}
 
 		public void ConfigureChatSystem(IEnumerable<IChatCommand> commandsToAdd,IEnumerable<IChatMessage> messagesToAdd)
@@ -85,7 +85,7 @@ namespace ChatBotPrime.Infra.ChatHander
 
 				if (!(message is null))
 				{
-					service.SendMessage(message.Response(e));
+					service.SendMessage(message.Response(service,e.ChatMessage));
 				}
 			}
 		}

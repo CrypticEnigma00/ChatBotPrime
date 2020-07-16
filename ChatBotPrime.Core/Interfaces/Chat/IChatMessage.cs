@@ -7,6 +7,6 @@ namespace ChatBotPrime.Core.Interfaces.Chat
 		bool IsMatch(string messageText);
 		string MessageText { get; }
 
-		string Response(ChatMessageReceivedEventArgs e);
+		string Response(IChatService service, ChatMessage chatMessage);
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using ChatBotPrime.Core.Events.EventArguments;
 using ChatBotPrime.Core.Interfaces.Chat;
 using System;
+using Message = ChatBotPrime.Core.Events.EventArguments.ChatMessage;
 
 namespace ChatBotPrime.Core.Services.CommandHandler
 {
@@ -13,6 +14,6 @@ namespace ChatBotPrime.Core.Services.CommandHandler
 			return messageText.Contains(MessageText);
 		}
 		
-		public abstract string Response(ChatMessageReceivedEventArgs e);
+		public abstract string Response(IChatService service, Message message);
 	}
 }

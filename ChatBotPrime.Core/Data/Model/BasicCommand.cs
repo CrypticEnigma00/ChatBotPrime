@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Message = ChatBotPrime.Core.Events.EventArguments.ChatMessage;
-using System.Text;
 using ChatBotPrime.Core.Extensions;
 
 namespace ChatBotPrime.Core.Data.Model
