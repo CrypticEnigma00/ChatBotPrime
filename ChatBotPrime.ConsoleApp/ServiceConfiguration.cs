@@ -9,7 +9,6 @@ using ChatBotPrime.Infra.SignalRCommunication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
@@ -20,27 +19,27 @@ namespace ChatBotPrime.ConsoleApp
 {
 	public static class ServiceConfiguration
 	{
-		//private static IConfigurationRoot SetupConfiguration(string[] args)
-		//{
-		//	return new ConfigurationBuilder()
-		//		.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-		//		.AddJsonFile("appsettings.json", true, true)
-		//		.AddUserSecrets<Program>()
-		//		.AddEnvironmentVariables()
-		//		.AddCommandLine(args)
-		//		.Build();
-		//}
-		public static  IServiceCollection ConfigureApplicationServices(this IServiceCollection services,IConfiguration configuration)
+		private static IConfigurationRoot SetupConfiguration(string[] args)
 		{
-			//var config = SetupConfiguration(args);
+			return new ConfigurationBuilder()
+				.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+				.AddJsonFile("appsettings.json", true, true)
+				.AddUserSecrets<Program>()
+				.AddEnvironmentVariables()
+				.AddCommandLine(args)
+				.Build();
+		}
+		public static  IServiceCollection ConfigureApplicationServices(this IServiceCollection services, IConfiguration configuration,string[] args)
+		{
+			var config = SetupConfiguration(args);
 
-			var section = configuration.GetSection("AppSettings");
-			var connectionString = configuration.GetConnectionString("DefaultConnection");
+			var section = config.GetSection("AppSettings");
+			var connectionString = config.GetConnectionString("DefaultConnection");
 
 			services.Configure<ApplicationSettings>(section);
 
 			services.AddLogging(configure => configure.AddConsole());
-			services.AddDbContext<AppDataContext>(options =>
+			services.AddDbContext<AppDataContext>( options =>
 				options.UseLazyLoadingProxies()
 				.UseSqlServer(connectionString, x => x.MigrationsAssembly("ChatBotPrime.Infra.Data.EF"))
 			);

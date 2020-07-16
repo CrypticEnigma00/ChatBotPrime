@@ -1,4 +1,5 @@
 ﻿using ChatBotPrime.Core.Data;
+using ChatBotPrime.Core.Data.Specifications;
 using ChatBotPrime.Core.Interfaces.Chat;
 using ChatBotPrime.Infra.ChatHander;
 using ChatBotPrime.Infra.Data.EF;
@@ -6,6 +7,7 @@ using ChatBotPrime.Infra.SignalRCommunication;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,6 +40,11 @@ namespace ChatBotPrime.ConsoleApp
 
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
+			var commands = _repository.ListAsync(BasicCommandPolicy.All()).Result.AsEnumerable();
+			var messages = _repository.ListAsync(BasicMessagePolicy.All()).Result.AsEnumerable();
+
+			_chatHandlerService.ConfigureChatSystem(commands, messages);
+
 			foreach (var svc in _chatServices)
 			{
 				svc.Connect();
