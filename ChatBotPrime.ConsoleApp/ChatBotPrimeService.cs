@@ -19,16 +19,16 @@ namespace ChatBotPrime.ConsoleApp
 		private IRepository _repository;
 		private AppDataContext _appDataContext;
 		private IEnumerable<IChatService> _chatServices;
-		private ChatHandlerService _chatHandlerService;
-		private SignalRService _signalRService;
+		//private ChatHandlerService _chatHandlerService;
+		//private SignalRService _signalRService;
 
 		public ChatBotPrimeService(IRepository repository, AppDataContext appDataContext, IEnumerable<IChatService> chatServices, ChatHandlerService chatHandlerService, SignalRService signalRService)
 		{
 			_repository = repository;
 			_appDataContext = appDataContext;
 			_chatServices = chatServices;
-			_chatHandlerService = chatHandlerService;
-			_signalRService = signalRService;
+			//_chatHandlerService = chatHandlerService;
+			//_signalRService = signalRService;
 
 			ConfigureDB();
 		}
@@ -40,11 +40,6 @@ namespace ChatBotPrime.ConsoleApp
 
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			var commands = _repository.ListAsync(BasicCommandPolicy.All()).Result.AsEnumerable();
-			var messages = _repository.ListAsync(BasicMessagePolicy.All()).Result.AsEnumerable();
-
-			_chatHandlerService.ConfigureChatSystem(commands, messages);
-
 			foreach (var svc in _chatServices)
 			{
 				svc.Connect();

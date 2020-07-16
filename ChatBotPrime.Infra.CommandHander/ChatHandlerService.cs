@@ -17,7 +17,7 @@ namespace ChatBotPrime.Infra.ChatHander
 		private ILogger<ChatHandlerService> _logger;
 
 
-		public ChatHandlerService(IEnumerable<IChatService> chatServices, IEnumerable<IChatCommand> commands, IEnumerable<IChatMessage> messages, ILogger<ChatHandlerService> logger)
+		public ChatHandlerService(IRepository repository, IEnumerable<IChatService> chatServices, IEnumerable<IChatCommand> commands, IEnumerable<IChatMessage> messages, ILogger<ChatHandlerService> logger)
 		{
 			_logger = logger;
 			_chatServices = chatServices;
@@ -28,11 +28,12 @@ namespace ChatBotPrime.Infra.ChatHander
 
 			AddEventHandlersToChatServices();
 
+			_commands.AddRange(repository.ListAsync(BasicCommandPolicy.All()).Result.AsEnumerable());
+			_messages.AddRange(repository.ListAsync(BasicMessagePolicy.All()).Result.AsEnumerable());
+
 			_logger.LogInformation($"Number of chat Services added to chat handler: {_chatServices.Count()}");
-
-			
-
-
+			_logger.LogInformation($"Number of chat commands added to chat handler: {_commands.Count}");
+			_logger.LogInformation($"Number of chat messages added to chat hansler: {_messages.Count}");
 		}
 
 		public void ConfigureChatSystem(IEnumerable<IChatCommand> commandsToAdd,IEnumerable<IChatMessage> messagesToAdd)
@@ -40,8 +41,7 @@ namespace ChatBotPrime.Infra.ChatHander
 			_commands.AddRange(commandsToAdd);
 			_messages.AddRange(messagesToAdd);
 
-			_logger.LogInformation($"Number of chat commands added to chat handler: {_commands.Count}");
-			_logger.LogInformation($"Number of chat messages added to chat hansler: {_messages.Count}");
+			
 		}
 
 		private void AddEventHandlersToChatServices()

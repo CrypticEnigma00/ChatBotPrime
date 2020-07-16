@@ -41,7 +41,8 @@ namespace ChatBotPrime.ConsoleApp
 			services.AddLogging(configure => configure.AddConsole());
 			services.AddDbContext<AppDataContext>( options =>
 				options.UseLazyLoadingProxies()
-				.UseSqlServer(connectionString, x => x.MigrationsAssembly("ChatBotPrime.Infra.Data.EF"))
+				.UseSqlServer(connectionString, x => x.MigrationsAssembly("ChatBotPrime.Infra.Data.EF")),
+				ServiceLifetime.Singleton
 			);
 
 
