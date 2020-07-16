@@ -33,7 +33,9 @@ namespace ChatBotPrime.ConsoleApp
 		Host.CreateDefaultBuilder(args)
 			.ConfigureServices((hostContext, services) =>
 			{
-				services.ConfigureApplicationServices(args).AddHostedService<ChatBotPrimeService>();
+				services
+					.ConfigureApplicationServices(hostContext.Configuration)
+					.AddHostedService<ChatBotPrimeService>();
 			});
 	}
 }

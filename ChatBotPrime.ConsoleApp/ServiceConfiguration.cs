@@ -20,22 +20,22 @@ namespace ChatBotPrime.ConsoleApp
 {
 	public static class ServiceConfiguration
 	{
-		private static IConfigurationRoot SetupConfiguration(string[] args)
+		//private static IConfigurationRoot SetupConfiguration(string[] args)
+		//{
+		//	return new ConfigurationBuilder()
+		//		.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+		//		.AddJsonFile("appsettings.json", true, true)
+		//		.AddUserSecrets<Program>()
+		//		.AddEnvironmentVariables()
+		//		.AddCommandLine(args)
+		//		.Build();
+		//}
+		public static  IServiceCollection ConfigureApplicationServices(this IServiceCollection services,IConfiguration configuration)
 		{
-			return new ConfigurationBuilder()
-				.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-				.AddJsonFile("appsettings.json", true, true)
-				.AddUserSecrets<Program>()
-				.AddEnvironmentVariables()
-				.AddCommandLine(args)
-				.Build();
-		}
-		public static  IServiceCollection ConfigureApplicationServices(this IServiceCollection services, string[] args)
-		{
-			var config = SetupConfiguration(args);
+			//var config = SetupConfiguration(args);
 
-			var section = config.GetSection("AppSettings");
-			var connectionString = config.GetConnectionString("DefaultConnection");
+			var section = configuration.GetSection("AppSettings");
+			var connectionString = configuration.GetConnectionString("DefaultConnection");
 
 			services.Configure<ApplicationSettings>(section);
 
@@ -49,7 +49,7 @@ namespace ChatBotPrime.ConsoleApp
 			services.AddSingleton<IRepository, EfGenericRepo>();
 
 			ConfigureChatServices(services, section);
-			//ConfigureChatMessages(services);
+			ConfigureChatMessages(services);
 
 			services.AddSingleton<ChatHandlerService>();
 			services.AddSingleton<SignalRService>();
