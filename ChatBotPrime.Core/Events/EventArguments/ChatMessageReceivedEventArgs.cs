@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChatBotPrime.Core.Events.EventArguments
 {
-	public class ChatMessageReceivedEventArgs
+	public class ChatMessageReceivedEventArgs	: EventArgs
 	{
 		public ChatMessageReceivedEventArgs(ChatMessage chatMessage)
 		{

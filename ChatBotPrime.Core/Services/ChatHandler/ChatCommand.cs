@@ -1,8 +1,10 @@
-﻿using ChatBotPrime.Core.Interfaces.Chat;
+﻿using ChatBotPrime.Core.Events.EventArguments;
+using ChatBotPrime.Core.Interfaces.Chat;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using Message = ChatBotPrime.Core.Events.EventArguments.ChatMessage;
 
 namespace ChatBotPrime.Core.Services.CommandHandler
 {
@@ -10,7 +12,7 @@ namespace ChatBotPrime.Core.Services.CommandHandler
 	{
 		
 		public abstract string CommandText { get; }
-		public abstract string Response(IChatService service);
+		public abstract string Response(IChatService service, Message chatMessage);
 		public abstract TimeSpan Cooldown { get; }
 		public DateTime LastRun { get; set; }
 		public bool IsAllowedToRun => (DateTime.UtcNow - LastRun) >= Cooldown;

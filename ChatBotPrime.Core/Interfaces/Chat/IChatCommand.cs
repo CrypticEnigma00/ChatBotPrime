@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatBotPrime.Core.Events.EventArguments;
+using System;
 
 namespace ChatBotPrime.Core.Interfaces.Chat
 {
@@ -10,6 +11,6 @@ namespace ChatBotPrime.Core.Interfaces.Chat
 		bool IsAllowedToRun { get; }
 		DateTime LastRun { get; set; }
 		bool IsMatch(string command);
-		string Response(IChatService service);
+		string Response(IChatService service, ChatMessage chatMessage);
 	}
 }
