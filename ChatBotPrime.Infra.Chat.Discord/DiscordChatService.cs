@@ -19,9 +19,9 @@ namespace ChatBotPrime.Infra.Chat.Discord
 		private DiscordSettings _settings;
 		private ILogger<DiscordChatService> _logger;
 
-		public DiscordChatService(IOptions<ApplicationSettings> applicationSettingsAccsesor,ILogger<DiscordChatService> logger)
+		public DiscordChatService(IOptions<ApplicationSettings> applicationSettingsAccessor,ILogger<DiscordChatService> logger)
 		{
-			_settings = applicationSettingsAccsesor.Value.DiscordSettings;
+			_settings = applicationSettingsAccessor.Value.DiscordSettings;
 			_logger = logger;
 			_client = new DiscordSocketClient();
 		}

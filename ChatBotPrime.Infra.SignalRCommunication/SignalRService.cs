@@ -11,9 +11,9 @@ namespace ChatBotPrime.Infra.SignalRCommunication
 		private HubConnection _hubConnection;
 		private SignalRSettings _settings;
 
-		public SignalRService(IOptions<ApplicationSettings> applicationSettingsAccesor)
+		public SignalRService(IOptions<ApplicationSettings> applicationSettingsAccessor)
 		{
-			_settings = applicationSettingsAccesor.Value.SignalRSettings;
+			_settings = applicationSettingsAccessor.Value.SignalRSettings;
 			_hubConnection = new HubConnectionBuilder()
 				.WithUrl(_settings.Endpoint)
 				.WithAutomaticReconnect()
