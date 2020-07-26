@@ -19,22 +19,11 @@ namespace ChatBotPrime.ConsoleApp
 {
 	public static class ServiceConfiguration
 	{
-		private static IConfigurationRoot SetupConfiguration(string[] args)
-		{
-			return new ConfigurationBuilder()
-				.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-				.AddJsonFile("appsettings.json", true, true)
-				.AddUserSecrets<Program>()
-				.AddEnvironmentVariables()
-				.AddCommandLine(args)
-				.Build();
-		}
 		public static  IServiceCollection ConfigureApplicationServices(this IServiceCollection services, IConfiguration configuration,string[] args)
 		{
-			var config = SetupConfiguration(args);
 
-			var section = config.GetSection("AppSettings");
-			var connectionString = config.GetConnectionString("DefaultConnection");
+			var section = configuration.GetSection("AppSettings");
+			var connectionString = configuration.GetConnectionString("DefaultConnection");
 
 			services.Configure<ApplicationSettings>(section);
 

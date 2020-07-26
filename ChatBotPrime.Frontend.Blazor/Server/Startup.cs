@@ -1,16 +1,21 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ChatBotPrime.FrontEnd.Hubs;
+using System.Linq;
+using ChatBotPrime.Frontend.Blazor.Server.Data;
+using ChatBotPrime.Frontend.Blazor.Server.Models;
 using ChatBotPrime.Infra.Data.EF;
-using Microsoft.Extensions.Logging;
-using ChatBotPrime.Core.Data;
 
-namespace ChatBotPrime.FrontEnd
+namespace ChatBotPrime.Frontend.Blazor.Server
 {
 	public class Startup
 	{
@@ -22,23 +27,25 @@ namespace ChatBotPrime.FrontEnd
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
+		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<AppDataContext>(options =>
-				options.UseLazyLoadingProxies()
-				.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("ChatBotPrime.Infra.Data.EF")));
-			services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+				options.UseSqlServer(
+					Configuration.GetConnectionString("DefaultConnection")));
+
+			services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddEntityFrameworkStores<AppDataContext>();
+
+			services.AddIdentityServer()
+				.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
+			services.AddAuthentication()
+				.AddIdentityServerJwt();
+
+			services.AddControllersWithViews();
 			services.AddRazorPages();
-			services.AddSignalR();
-
-			services.AddLogging(configure => configure.AddConsole());
-
-
-			services.AddScoped<IRepository, EfGenericRepo>();
 		}
-
-	
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -47,6 +54,7 @@ namespace ChatBotPrime.FrontEnd
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseDatabaseErrorPage();
+				app.UseWebAssemblyDebugging();
 			}
 			else
 			{
@@ -56,17 +64,20 @@ namespace ChatBotPrime.FrontEnd
 			}
 
 			app.UseHttpsRedirection();
+			app.UseBlazorFrameworkFiles();
 			app.UseStaticFiles();
 
 			app.UseRouting();
 
+			app.UseIdentityServer();
 			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapRazorPages();
-				endpoints.MapHub<ChatHub>("/chathub");
+				endpoints.MapControllers();
+				endpoints.MapFallbackToFile("index.html");
 			});
 		}
 	}

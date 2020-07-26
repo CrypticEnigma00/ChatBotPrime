@@ -1,13 +1,12 @@
 ﻿using ChatBotPrime.Core.Data.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
 
 namespace ChatBotPrime.Infra.Data.EF
 {
-	public class AppDataContext : DbContext
+	public class AppDataContext : IdentityDbContext
 	{
 		public DbSet<BasicCommand> BasicCommands { get; set; }
 		public DbSet<BasicMessage> BasicMessages { get; set; }
