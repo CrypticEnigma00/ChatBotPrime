@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 
 namespace ChatBotPrime.Infra.Data.EF
@@ -19,6 +20,7 @@ namespace ChatBotPrime.Infra.Data.EF
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+
 			modelBuilder.Entity<BasicCommand>()
 				.HasMany(c => c.Aliases)
 				.WithOne(a => a.command);

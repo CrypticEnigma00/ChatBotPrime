@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{604B6851-9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBotPrime.Infra.Data.EF", "ChatBotPrime.Infra.Data.EF\ChatBotPrime.Infra.Data.EF.csproj", "{FDA19490-9A0B-4916-B61A-0C4E332D6E04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBotPrime.Tests", "ChatBotPrime.Tests\ChatBotPrime.Tests.csproj", "{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,18 @@ Global
 		{FDA19490-9A0B-4916-B61A-0C4E332D6E04}.Release|x64.Build.0 = Release|Any CPU
 		{FDA19490-9A0B-4916-B61A-0C4E332D6E04}.Release|x86.ActiveCfg = Release|Any CPU
 		{FDA19490-9A0B-4916-B61A-0C4E332D6E04}.Release|x86.Build.0 = Release|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Debug|x64.Build.0 = Debug|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Debug|x86.Build.0 = Debug|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Release|x64.ActiveCfg = Release|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Release|x64.Build.0 = Release|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Release|x86.ActiveCfg = Release|Any CPU
+		{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

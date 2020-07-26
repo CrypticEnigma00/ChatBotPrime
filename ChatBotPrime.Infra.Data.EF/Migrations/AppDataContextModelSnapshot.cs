@@ -28,8 +28,8 @@ namespace ChatBotPrime.Infra.Data.EF.Migrations
                     b.Property<string>("CommandText")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("Cooldown")
-                        .HasColumnType("time");
+                    b.Property<long>("Cooldown")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsAllowedToRun")
                         .HasColumnType("bit");

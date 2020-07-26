@@ -37,9 +37,14 @@ namespace ChatBotPrime.Core.Data.Model
 
 		string IChatCommand.Response(IChatService service,Message chatMessage)
 		{
-			IEnumerable<string> findTokens = Response.FindTokens();
-			string textToSend = ReplaceTokens(Response, findTokens, chatMessage);
-			return textToSend;
+			if (CanRun())
+			{
+				IEnumerable<string> findTokens = Response.FindTokens();
+				string textToSend = ReplaceTokens(Response, findTokens, chatMessage);
+				SetLastRun();
+				return textToSend;
+			}
+			return $"Command is on cooldown please wait {GetTimeToRun()}";
 		}
 
 		private string ReplaceTokens(string textToSend, IEnumerable<string> tokens, Message chatMessage)
@@ -52,6 +57,33 @@ namespace ChatBotPrime.Core.Data.Model
 			}
 
 			return newText;
+		}
+
+		private   string GetTimeToRun()
+		{
+			var time = (Cooldown - (DateTime.UtcNow - LastRun));
+			if (time.Minutes > 0)
+			{
+				return $"{time.Minutes}M{time.Seconds}S";
+			}
+			 else
+			{
+				return $"{time.Seconds}S";
+			}
+
+		}
+
+		private   bool CanRun()
+		{
+			if (Cooldown == TimeSpan.Zero)
+				return true;
+
+			return DateTime.UtcNow - LastRun <= Cooldown;
+		}
+
+		private  void SetLastRun()
+		{
+			LastRun = DateTime.UtcNow;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using ChatBotPrime.Core.Events.EventArguments;
 using System;
+using System.Collections.Generic;
 
 namespace ChatBotPrime.Core.Interfaces.Chat
 {
