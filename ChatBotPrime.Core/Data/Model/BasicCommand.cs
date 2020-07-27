@@ -12,11 +12,11 @@ namespace ChatBotPrime.Core.Data.Model
 	{
 		public BasicCommand()
 		{ }
-		public BasicCommand(string commandText, string response, bool isAllowedToRun = true  )
+		public BasicCommand(string commandText, string response, bool isEnabled = true  )
 		{
 			CommandText = commandText;
 			Response = response;
-			IsAllowedToRun = IsAllowedToRun;
+			IsEnabled = isEnabled;
 		}
 			
 		public TimeSpan Cooldown { get; set; } = TimeSpan.Zero;
@@ -24,13 +24,17 @@ namespace ChatBotPrime.Core.Data.Model
 
 		public string CommandText { get; private set; }
 
-		public bool IsAllowedToRun { get; private set; }
+		public bool IsEnabled { get; private set; }
 
-		public DateTime LastRun { get; set; }
+		public DateTime LastRun { get; set; } = DateTime.UtcNow;
 
 		public bool IsMatch(string command)
 		{
-			return command.Equals(CommandText, StringComparison.InvariantCultureIgnoreCase) || Aliases.Where(a => a.Word.Equals(command,StringComparison.InvariantCultureIgnoreCase)).Any();
+			if (IsEnabled)
+			{
+				return command.Equals(CommandText, StringComparison.InvariantCultureIgnoreCase) || Aliases.Where(a => a.Word.Equals(command, StringComparison.InvariantCultureIgnoreCase)).Any();
+			}
+			return false;
 		}
 
 		public string Response { get; private set; }
@@ -78,7 +82,7 @@ namespace ChatBotPrime.Core.Data.Model
 			if (Cooldown == TimeSpan.Zero)
 				return true;
 
-			return DateTime.UtcNow - LastRun <= Cooldown;
+			return DateTime.UtcNow - LastRun >= Cooldown;
 		}
 
 		private  void SetLastRun()

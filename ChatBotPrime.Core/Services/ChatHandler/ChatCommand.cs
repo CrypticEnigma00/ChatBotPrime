@@ -14,9 +14,9 @@ namespace ChatBotPrime.Core.Services.CommandHandler
 		
 		public abstract string CommandText { get; }
 		public abstract string Response(IChatService service, Message chatMessage);
-		public abstract TimeSpan Cooldown { get; }
+		public abstract TimeSpan Cooldown { get; set; }
 		public DateTime LastRun { get; set; } = DateTime.UtcNow;
-		public bool IsAllowedToRun => (DateTime.UtcNow - LastRun) >= Cooldown;
+		public bool IsEnabled => (DateTime.UtcNow - LastRun) >= Cooldown;
 
 		public bool IsMatch(string command)
 		{

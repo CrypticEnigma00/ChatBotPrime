@@ -8,7 +8,7 @@ namespace ChatBotPrime.Core.Services.CommandHandler.Commands
 	public class UpTimeCommand : StreamCommand
 	{
 		public override string CommandText => "Uptime";
-		public override TimeSpan Cooldown => TimeSpan.FromSeconds(300);
+		public override TimeSpan Cooldown { get; set; } = TimeSpan.FromSeconds(300);
 
 		public override string Response(IChatService streamService, Message chatMessage)
 		{

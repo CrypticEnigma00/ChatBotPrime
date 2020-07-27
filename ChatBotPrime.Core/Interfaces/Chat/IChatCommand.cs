@@ -8,8 +8,8 @@ namespace ChatBotPrime.Core.Interfaces.Chat
 	{
 		
 		string CommandText { get; }
-		TimeSpan Cooldown { get; }
-		bool IsAllowedToRun { get; }
+		TimeSpan Cooldown { get; set; }
+		bool IsEnabled { get; }
 		DateTime LastRun { get; set; }
 		bool IsMatch(string command);
 		string Response(IChatService service, ChatMessage chatMessage);
