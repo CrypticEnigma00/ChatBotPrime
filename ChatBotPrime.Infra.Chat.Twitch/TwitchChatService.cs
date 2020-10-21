@@ -13,6 +13,7 @@ using ChatBotPrime.Core.Interfaces.Stream;
 using TwitchLib.Api;
 using System.Linq;
 using System.Collections.Generic;
+using Command = ChatBotPrime.Core.Events.EventArguments.ChatCommand;
 
 namespace ChatBotPrime.Infra.Chat.Twitch
 {
@@ -129,8 +130,9 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 		private void CommandReceived(object sender, OnChatCommandReceivedArgs args)
 		{
 			_logger.LogInformation($"Command Received from Chat : {args.Command.CommandText}  arguments : {args.Command.ArgumentsAsString}");
-			var eventArgs = new ChatCommandReceivedEventArgs(
+			var eventArgs = new ChatCommandReceivedEventArgs( new Command(
 					args.Command.ArgumentsAsList,
+					args.Command.ArgumentsAsString,
 					args.Command.CommandIdentifier,
 					args.Command.CommandText,
 					new Core.Events.EventArguments.ChatMessage(
@@ -147,7 +149,7 @@ namespace ChatBotPrime.Infra.Chat.Twitch
 						args.Command.ChatMessage.IsHighlighted,
 						args.Command.ChatMessage.UserId,
 						args.Command.ChatMessage.Username
-				));
+				)));
 
 			CommandReceived(eventArgs);
 		}

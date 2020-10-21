@@ -1,7 +1,7 @@
 ﻿using ChatBotPrime.Core.Interfaces.Chat;
 using ChatBotPrime.Core.Interfaces.Stream;
 using System;
-using Message = ChatBotPrime.Core.Events.EventArguments.ChatMessage;
+using Command = ChatBotPrime.Core.Events.EventArguments.ChatCommand;
 
 namespace ChatBotPrime.Core.Services.CommandHandler.Commands
 {
@@ -10,7 +10,7 @@ namespace ChatBotPrime.Core.Services.CommandHandler.Commands
 		public override string CommandText => "Uptime";
 		public override TimeSpan Cooldown { get; set; } = TimeSpan.FromSeconds(300);
 
-		public override string Response(IChatService streamService, Message chatMessage)
+		public override string Response(IChatService streamService, Command chatMessage)
 		{
 			if (CanRun())
 			{

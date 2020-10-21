@@ -3,7 +3,7 @@ using ChatBotPrime.Core.Services.CommandHandler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Message = ChatBotPrime.Core.Events.EventArguments.ChatMessage;
+using Command = ChatBotPrime.Core.Events.EventArguments.ChatCommand;
 using ChatBotPrime.Core.Extensions;
 
 namespace ChatBotPrime.Core.Data.Model
@@ -39,7 +39,7 @@ namespace ChatBotPrime.Core.Data.Model
 
 		public string Response { get; private set; }
 
-		string IChatCommand.Response(IChatService service,Message chatMessage)
+		string IChatCommand.Response(IChatService service,Command chatMessage)
 		{
 			if (CanRun())
 			{
@@ -51,13 +51,13 @@ namespace ChatBotPrime.Core.Data.Model
 			return $"Command is on cooldown please wait {GetTimeToRun()}";
 		}
 
-		private string ReplaceTokens(string textToSend, IEnumerable<string> tokens, Message chatMessage)
+		private string ReplaceTokens(string textToSend, IEnumerable<string> tokens, Command cahtCommand)
 		{
 			string newText = textToSend;
 			var replaceableTokens = TokenReplacer.ListAll.Where(x => tokens.Contains(x.ReplacementToken));
 			foreach (var rt in replaceableTokens)
 			{
-				newText = rt.ReplaceValues(newText, chatMessage);
+				newText = rt.ReplaceValues(newText, cahtCommand.ChatMessage);
 			}
 
 			return newText;

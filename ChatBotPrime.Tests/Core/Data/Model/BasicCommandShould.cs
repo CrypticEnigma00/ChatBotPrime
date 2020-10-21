@@ -40,9 +40,9 @@ namespace ChatBotPrime.Tests.Core.Data.Model
 			return bc;
 		}
 
-		private ChatMessage GenerateChatMessage()
+		private ChatCommand GenerateChatMessage()
 		{
-			 return new ChatMessage(null, false, false, false, false, false, 0, null, null, 0, false, null, "TokenReplacement");
+			 return new ChatCommand(new List<string> { "a" },"a",'!', "test", new ChatMessage(null, false, false, false, false, false, 0, null, null, 0, false, null, "TokenReplacement"));
 		}
 
 		[Fact]

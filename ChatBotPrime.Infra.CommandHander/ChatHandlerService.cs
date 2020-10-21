@@ -57,7 +57,7 @@ namespace ChatBotPrime.Infra.ChatHander
 		{
 			if (sender is IChatService service)
 			{
-				var command = GetCommand(e.CommandText);
+				var command = GetCommand(e.ChatCommand.CommandText);
 
 				if (command is IStreamCommand)
 				{
@@ -67,7 +67,7 @@ namespace ChatBotPrime.Infra.ChatHander
 					}
 				}
 
-				service.SendMessage(command.Response(service,e.ChatMessage));
+				service.SendMessage(command.Response(service,e.ChatCommand));
 			}
 		}
 

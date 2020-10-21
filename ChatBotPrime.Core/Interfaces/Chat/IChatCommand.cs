@@ -12,6 +12,6 @@ namespace ChatBotPrime.Core.Interfaces.Chat
 		bool IsEnabled { get; }
 		DateTime LastRun { get; set; }
 		bool IsMatch(string command);
-		string Response(IChatService service, ChatMessage chatMessage);
+		string Response(IChatService service, ChatCommand chatMessage);
 	}
 }
