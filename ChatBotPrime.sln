@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30223.230
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33312.197
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBotPrime.FrontEnd", "ChatBotPrime.FrontEnd\ChatBotPrime.FrontEnd.csproj", "{A0AF05AA-D08A-45BA-A783-974D8553AD09}"
 EndProject
@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{604B6851-9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBotPrime.Infra.Data.EF", "ChatBotPrime.Infra.Data.EF\ChatBotPrime.Infra.Data.EF.csproj", "{FDA19490-9A0B-4916-B61A-0C4E332D6E04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatBotPrime.Tests", "ChatBotPrime.Tests\ChatBotPrime.Tests.csproj", "{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatBotPrime.Tests", "ChatBotPrime.Tests\ChatBotPrime.Tests.csproj", "{EDC38BC2-03A2-4F48-B158-3FD7469DC2F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

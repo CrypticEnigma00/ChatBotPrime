@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using ChatBotPrime.FrontEnd.Hubs;
 using ChatBotPrime.Infra.Data.EF;
 using Microsoft.Extensions.Logging;
@@ -29,7 +30,10 @@ namespace ChatBotPrime.FrontEnd
 				.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("ChatBotPrime.Infra.Data.EF")));
 			services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddEntityFrameworkStores<AppDataContext>();
-			services.AddRazorPages();
+			services.AddRazorPages(options =>
+			{
+				options.Conventions.AuthorizeFolder("/Admin");
+			});
 			services.AddSignalR();
 
 			services.AddLogging(configure => configure.AddConsole());
