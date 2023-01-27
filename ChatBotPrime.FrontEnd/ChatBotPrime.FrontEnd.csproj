@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <UserSecretsId>aspnet-ChatBotPrime.FrontEnd-28C57625-4618-45BC-95B0-7B5EE56DF81B</UserSecretsId>
   </PropertyGroup>
 

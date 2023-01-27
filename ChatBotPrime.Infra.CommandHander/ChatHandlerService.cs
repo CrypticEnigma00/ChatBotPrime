@@ -28,8 +28,8 @@ namespace ChatBotPrime.Infra.ChatHander
 
 			AddEventHandlersToChatServices();
 
-			_commands.AddRange(repository.ListAsync(BasicCommandPolicy.All()).Result.AsEnumerable());
-			_messages.AddRange(repository.ListAsync(BasicMessagePolicy.All()).Result.AsEnumerable());
+			//_commands.AddRange(repository.ListAsync(BasicCommandPolicy.All()).Result.AsEnumerable());
+			//_messages.AddRange(repository.ListAsync(BasicMessagePolicy.All()).Result.AsEnumerable());
 
 			_logger.LogInformation($"Number of chat Services added to chat handler: {_chatServices.Count()}");
 			_logger.LogInformation($"Number of chat commands added to chat handler: {_commands.Count}");

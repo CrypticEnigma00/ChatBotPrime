@@ -74,11 +74,11 @@ namespace ChatBotPrime.Infra.Data.EF
 		{
 			var withExpressionIncludes = spec?.Includes
 				.Aggregate(_db.Set<T>().AsQueryable(),
-					(queryable, include) => queryable.Include(include));
+					(quarriable, include) => quarriable.Include(include));
 
 			var withAllIncludes = spec?.IncludeStrings
 				.Aggregate(withExpressionIncludes,
-					(queryable, include) => queryable.Include(include));
+					(quarriable, include) => quarriable.Include(include));
 
 			return withAllIncludes;
 		}
